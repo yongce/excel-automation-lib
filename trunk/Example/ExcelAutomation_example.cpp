@@ -27,7 +27,7 @@ int main()
     if (!app.Startup())
         return -1;
 
-    ExcelWorkbook file = app.OpenWorkbook(ELtext("D:\\Tyc\\Code\\ExcelAutomation\\Example\\C++0x Features Supported by VC.xls"));
+    ExcelWorkbook file = app.OpenWorkbook(ELtext("D:\\Tyc\\Code\\ExcelAutomationLib\\Example\\C++0x Features Supported by VC.xls"));
     if (file.IsNull())
         return -2;
 
