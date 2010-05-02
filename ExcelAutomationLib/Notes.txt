@@ -1,0 +1,3 @@
+// How to automate Excel from C++ without using MFC or #import
+// http://support.microsoft.com/kb/216686/
+
