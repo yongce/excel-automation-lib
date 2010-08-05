@@ -11,6 +11,7 @@
 #define EXCELRANGE_H_GUID_A48F0552_080F_444F_89EC_97ADCFC3A649
 
 
+#include <vector>
 #include "LibDef.h"
 #include "HandleBody.h"
 #include "StringUtil.h"
@@ -59,6 +60,25 @@ public:
     * @note The source range and this range must have the same size (same number of rows and columns).
     */
     bool WriteData(const ELchar *data);
+
+    /*!
+    * @brief Decode the string form of a range into values
+    * @param [in] data The string form of a range (the encoded string)
+    * @param [out] Which returns the values for this range
+    * @return true if successful, otherwise false
+    * @note The encoding format of @e data must be the one specified in ExcelRange::ReadData().
+    */
+    static bool DecodeData(const ELstring &data, std::vector<std::vector<ELstring> > &values);
+
+    /*!
+    * @brief Encode values of a range into the string form
+    * @param [in] values The values for a range
+    * @return The string form of this range
+    * @note The sub-vector objects must have the same size, which is number of columns
+    * @note The encoding format is the one specified in ExcelRange::ReadData().
+    */
+    static ELstring EncodeData(const std::vector<std::vector<ELstring> > &values);
+
 
 private:
     friend class ExcelWorksheetImpl;  // which will call the following ctor

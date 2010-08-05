@@ -56,6 +56,16 @@ int main()
     wcout << L"New: " << data << endl;
     assert(encodedData == data);
 
+    vector<vector<ELstring> > values;
+    ExcelRange::DecodeData(data, values);
+
+    for (size_t i = 0; i < values.size(); ++i)
+    {
+        for (size_t k = 0; k < values[i].size(); ++k)
+            wcout << values[i][k] << ", ";
+        wcout << endl;
+    }
+
     ExcelWorksheetSet allWorksheets = file.GetAllWorksheets();
     if (allWorksheets.IsNull())
         return -6;

@@ -9,6 +9,7 @@
 
 #include <tchar.h>
 #include <cassert>
+#include <sstream>
 
 #include "ExcelRange.h"
 #include "StringUtil.h"
@@ -117,6 +118,88 @@ bool ExcelRange::WriteData(const ELchar *data)
 {
     return Body().WriteData(data);
 }
+
+
+bool ExcelRange::DecodeData(const ELstring &data, std::vector<std::vector<ELstring> > &values)
+{
+    std::basic_istringstream<ELchar> iss(data);
+    iss >> std::noskipws;
+
+    int row = 0;
+    int column = 0;
+    ELchar dumb;
+
+    // Encoding format: <row>#<column>#
+    iss >> row >> dumb;             // <row>#
+    assert(dumb == ELtext('#'));    // Whether the delimiter is '#', it's not important. 
+                                    // So we just place an assert statement here.
+    iss >> column >> dumb;          // <column>#
+    assert(dumb == ELtext('#'));
+
+    if (row <=0 || column <= 0)
+        return false;   // no data or dirty data
+
+    // initialize the two-dimensional array
+    std::vector<std::vector<ELstring> >(row, std::vector<ELstring>(column, ELstring())).swap(values);
+
+    bool validState = true;  // flag indicating whether the data is well formed
+
+    for (int i = 0; validState && i < row; ++i)
+    {
+        for (int j = 0; validState && j < column; ++j)
+        {
+            // Encoding format: <number of characters>#<characters>
+            int count = 0;
+            iss >> count >> dumb;
+            assert(dumb == ELtext('#'));
+
+            validState = iss.good() && (count >= 0);
+
+            ELstring curValue;
+            for (int k = 0; k < count; ++k)
+            {
+                ELchar ch;
+                iss >> ch;
+                curValue.push_back(ch);
+            }
+
+            validState = validState && iss.good();
+
+            if (validState)
+                values[i][j] = curValue;
+        }
+    }
+
+    return validState;
+}
+
+
+ELstring ExcelRange::EncodeData(const std::vector<std::vector<ELstring> > &values)
+{
+    std::basic_ostringstream<ELchar> oss;
+
+    int rowNum = values.size();
+    if (rowNum == 0)
+        return ELstring(ELtext("0#"));
+
+    int columnNum = values[0].size();
+
+    // Encoding format: <row>#<column>#
+    oss << rowNum << ELtext('#') << columnNum << ELtext('#');
+
+    for (int i = 0; i < rowNum; ++i)
+    {
+        for (int j = 0; j < columnNum; ++j)
+        {
+            // Encoding format: <number of characters>#<characters>
+            oss << values[i][j].length() << ELtext('#') << values[i][j];
+        }
+    }
+
+    return oss.str();
+}
+
+
 
 
 // <begin> Handle/Body pattern implementation
