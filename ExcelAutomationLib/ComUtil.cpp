@@ -10,6 +10,7 @@
 #include <tchar.h>
 #include <cassert>
 #include <sstream>
+#include <iomanip>
 #include "ComUtil.h"
 
 
@@ -266,6 +267,7 @@ SAFEARRAY* ComUtil::DecodeSafeArrayDim2(const ELchar *data)
     assert(data);
 
     EListringstream iss(data);
+    iss >> std::noskipws;
 
     int row = 0;
     int column = 0;
