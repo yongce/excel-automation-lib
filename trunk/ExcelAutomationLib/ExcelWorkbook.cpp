@@ -52,6 +52,7 @@ private:
     ExcelWorksheetSet GetAllWorksheets();
 
     bool Save();
+    bool SaveAs(const ELstring &filename);
 
     bool Close();
 
@@ -103,6 +104,22 @@ bool ExcelWorkbookImpl::Save()
 }
 
 
+bool ExcelWorkbookImpl::SaveAs(const ELstring &filename)
+{
+    assert(m_pWorkbook);
+
+    VARIANT param;
+    param.vt = VT_BSTR;
+    param.bstrVal = ::SysAllocString(filename.c_str());
+
+    HRESULT hr = ComUtil::Invoke(m_pWorkbook, DISPATCH_METHOD, OLESTR("SaveAs"), NULL, 1, param);
+
+    ::VariantClear(&param);
+
+    return SUCCEEDED(hr);
+}
+
+
 bool ExcelWorkbookImpl::Close()
 {
     assert(m_pWorkbook);
@@ -140,6 +157,12 @@ ExcelWorksheetSet ExcelWorkbook::GetAllWorksheets() const
 bool ExcelWorkbook::Save() const
 {
     return Body().Save();
+}
+
+
+bool ExcelWorkbook::SaveAs(const ELstring &filename)
+{
+    return Body().SaveAs(filename);
 }
 
 
