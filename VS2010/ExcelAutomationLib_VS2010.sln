@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExcelAutomationLib_VS2010", "ExcelAutomationLib_VS2010.vcxproj", "{0A18254A-D367-45A4-86CB-579B22B2E222}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_VS2010", "Example_VS2010.vcxproj", "{9CB4C343-70EB-4421-A9A2-3558E5F7E6DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A18254A-D367-45A4-86CB-579B22B2E222} = {0A18254A-D367-45A4-86CB-579B22B2E222}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A18254A-D367-45A4-86CB-579B22B2E222}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A18254A-D367-45A4-86CB-579B22B2E222}.Debug|Win32.Build.0 = Debug|Win32
+		{0A18254A-D367-45A4-86CB-579B22B2E222}.Release|Win32.ActiveCfg = Release|Win32
+		{0A18254A-D367-45A4-86CB-579B22B2E222}.Release|Win32.Build.0 = Release|Win32
+		{9CB4C343-70EB-4421-A9A2-3558E5F7E6DD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9CB4C343-70EB-4421-A9A2-3558E5F7E6DD}.Debug|Win32.Build.0 = Debug|Win32
+		{9CB4C343-70EB-4421-A9A2-3558E5F7E6DD}.Release|Win32.ActiveCfg = Release|Win32
+		{9CB4C343-70EB-4421-A9A2-3558E5F7E6DD}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
