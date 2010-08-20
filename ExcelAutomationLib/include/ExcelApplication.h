@@ -45,6 +45,7 @@ public:
     bool Shutdown();
 
     ExcelWorkbook OpenWorkbook(const ELchar *filename);
+    ExcelWorkbook OpenWorkbook(const ELstring &filename);
 
 private:
     // <begin> Handle/Body pattern implementation

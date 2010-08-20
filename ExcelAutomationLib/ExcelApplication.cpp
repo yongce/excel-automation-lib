@@ -185,6 +185,12 @@ ExcelWorkbook ExcelApplication::OpenWorkbook(const ELchar *filename)
 }
 
 
+ExcelWorkbook ExcelApplication::OpenWorkbook(const ELstring &filename)
+{
+    return OpenWorkbook(filename.c_str());
+}
+
+
 // <begin> Handle/Body pattern implementation
 
 ExcelApplication::ExcelApplication(ExcelApplicationImpl *impl): HandleBase(impl)
