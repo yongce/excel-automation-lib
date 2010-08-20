@@ -54,6 +54,14 @@ public:
     bool ReadData(ELstring &data);
 
     /*!
+    * @brief Read values in this range into vector.
+    * @param [out] values Vector of Vectors of strings which holds values for this range
+    * @return true if successful, otherwise false
+    * @note values[i][j] holds the value for row i and column j of this range (i and j start from 0)
+    */
+    bool ReadData(std::vector<std::vector<ELstring> > &values);
+
+    /*!
     * @brief Decode the string form of a range and write the data into this range.
     * @return true if successful, otherwise false
     * @note The encoding format of @e data must be the one specified in ExcelRange::ReadData().
@@ -62,11 +70,28 @@ public:
     bool WriteData(const ELchar *data);
 
     /*!
+    * @brief Decode the string form of a range and write the data into this range.
+    * @return true if successful, otherwise false
+    * @note The encoding format of @e data must be the one specified in ExcelRange::ReadData().
+    * @note The source range and this range must have the same size (same number of rows and columns).
+    */
+    bool WriteData(const ELstring &data);
+
+    /*!
+    * @brief Write values in the vector into this range.
+    * @return true if successful, otherwise false
+    * @note The vector and this range must have the same size (same number of rows and columns).
+    * @note values[i][j] holds the value for row i and column j of this range (i and j start from 0)
+    */
+    bool WriteData(const std::vector<std::vector<ELstring> > &values);
+
+    /*!
     * @brief Decode the string form of a range into values
     * @param [in] data The string form of a range (the encoded string)
     * @param [out] Which returns the values for this range
     * @return true if successful, otherwise false
     * @note The encoding format of @e data must be the one specified in ExcelRange::ReadData().
+    * @note values[i][j] holds the value for row i and column j of this range (i and j start from 0)
     */
     static bool DecodeData(const ELstring &data, std::vector<std::vector<ELstring> > &values);
 
@@ -76,6 +101,7 @@ public:
     * @return The string form of this range
     * @note The sub-vector objects must have the same size, which is number of columns
     * @note The encoding format is the one specified in ExcelRange::ReadData().
+    * @note values[i][j] holds the value for row i and column j of this range (i and j start from 0)
     */
     static ELstring EncodeData(const std::vector<std::vector<ELstring> > &values);
 
