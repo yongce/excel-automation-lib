@@ -114,9 +114,32 @@ bool ExcelRange::ReadData(ELstring &data)
 }
 
 
+bool ExcelRange::ReadData(std::vector<std::vector<ELstring> > &values)
+{
+    ELstring tmp;
+    if (!ReadData(tmp))
+        return false;
+
+    return DecodeData(tmp, values);
+}
+
+
 bool ExcelRange::WriteData(const ELchar *data)
 {
     return Body().WriteData(data);
+}
+
+
+bool ExcelRange::WriteData(const ELstring &data)
+{
+    return WriteData(data.c_str());
+}
+
+
+bool ExcelRange::WriteData(const std::vector<std::vector<ELstring> > &values)
+{
+    ELstring tmp = EncodeData(values);
+    return WriteData(tmp);
 }
 
 
