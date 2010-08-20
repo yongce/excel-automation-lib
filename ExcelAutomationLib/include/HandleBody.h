@@ -83,6 +83,18 @@ public:
     }
     // <end> Support comparing with null pointer
 
+    void ReleaseRef()
+    {
+        if (m_pBody)
+        {
+            if (AtomicsUtil::Decrement(&(m_pBody->m_refCount)) == 0)
+            {
+                delete m_pBody;
+            }
+            m_pBody = 0;
+        }
+    }
+
 protected: 
     HandleBase(BodyBase *pBody = 0): m_pBody(pBody)
     {
@@ -136,17 +148,6 @@ private:
         }
     }
 
-    void ReleaseRef()
-    {
-        if (m_pBody)
-        {
-            if (AtomicsUtil::Decrement(&(m_pBody->m_refCount)) == 0)
-            {
-                delete m_pBody;
-            }
-            m_pBody = 0;
-        }
-    }
 
 protected:
     BodyBase *m_pBody;

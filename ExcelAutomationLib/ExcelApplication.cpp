@@ -40,6 +40,9 @@ private:
 
     virtual ~ExcelApplicationImpl()
     {
+        // Release the body part before call CoUninitialize()
+        m_workbookSet.ReleaseRef();
+
         if (IsRunning())
             Shutdown();
 
