@@ -3,6 +3,7 @@
 * @brief   Header file for string utilities
 * @date    2009-12-01
 * @author  Tu Yongce <tuyongce@gmail.com>
+* @version $Id$
 */
 
 
@@ -11,6 +12,8 @@
 
 
 #include <string>
+#include <sstream>
+#include <fstream>
 #include "LibDef.h"
 
 
@@ -21,22 +24,25 @@ EXCEL_AUTOMATION_NAMESPACE_START
 // macros for string literal
 #ifdef _UNICODE
 
-#define ELtext(s)       L ## s
-typedef wchar_t         ELchar;
-typedef std::wstring    ELstring;
-
-typedef std::wistringstream EListringstream;
-typedef std::wostringstream ELostringstream;
-
+    #define ELtext(s)               L ## s
+    typedef wchar_t                 ELchar;
+    typedef std::wstring            ELstring;
+    typedef std::wistringstream     EListringstream;
+    typedef std::wostringstream     ELostringstream;
+    typedef std::wifstream          ELifstream;
+    typedef std::wofstream          ELofstream;
+    typedef std::wostream           ELostream;
 
 #else // non _UNICODE
 
-#define ELtext(s)       s
-typedef char            ELchar;
-typedef std::string     ELstring;
-
-typedef std::istringstream EListringstream;
-typedef std::ostringstream ELostringstream;
+    #define ELtext(s)               s
+    typedef char                    ELchar;
+    typedef std::string             ELstring;
+    typedef std::istringstream      EListringstream;
+    typedef std::ostringstream      ELostringstream;
+    typedef std::ifstream           ELifstream;
+    typedef std::ofstream           ELofstream;
+    typedef std::ostream            ELostream;
 
 #endif // _UNICODE
 
