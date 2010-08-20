@@ -13,6 +13,7 @@
 
 #include "LibDef.h"
 #include "HandleBody.h"
+#include "StringUtil.h"
 
 
 // <begin> namespace
@@ -40,6 +41,8 @@ public:
     ExcelWorksheetSet GetAllWorksheets() const;
 
     bool Save() const;
+    bool SaveAs(const ELstring &filename);
+
     bool Close() const;
 
 private:
