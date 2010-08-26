@@ -9,6 +9,7 @@
 
 #include <tchar.h>
 #include <cassert>
+#include <vector>
 
 #include "ExcelWorkbookSet.h"
 #include "ExcelWorkbook.h"
@@ -58,9 +59,22 @@ ExcelWorkbook ExcelWorkbookSetImpl::OpenWorkbook(const ELchar *filename)
 {
     assert(m_pWorkbookSet);
 
+    // Get full path name for the file
+    std::vector<ELchar> fullpath(256, ELtext('\0'));
+    DWORD len = _tcslen(filename);
+    DWORD bufLen = ::GetFullPathName(filename, fullpath.size(), &fullpath[0], 0);
+    if (bufLen == 0)
+        return ExcelWorkbook();  // the file cannot be found
+
+    if (bufLen > fullpath.size())
+    {
+        fullpath.resize(bufLen, ELtext('\0'));
+        ::GetFullPathName(filename, fullpath.size(), &fullpath[0], 0);
+    }
+
     VARIANT param;
     param.vt = VT_BSTR;
-    param.bstrVal = ::SysAllocString(filename);
+    param.bstrVal = ::SysAllocString(&fullpath[0]);
 
     VARIANT result;
     VariantInit(&result);
