@@ -65,7 +65,11 @@ bool ExcelCellImpl::GetValue(ELstring &value)
     HRESULT hr = ComUtil::Invoke(m_pCell, DISPATCH_PROPERTYGET, OLESTR("Value"), &result, 0);
 
     if (SUCCEEDED(hr))
-        value = result.bstrVal;
+    {
+        hr = ::VariantChangeType(&result, &result, 0, VT_BSTR);
+        if (SUCCEEDED(hr))
+            value = result.bstrVal;
+    }
 
     ::VariantClear(&result);
 
