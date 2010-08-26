@@ -66,7 +66,7 @@ bool ExcelCellImpl::GetValue(ELstring &value)
 
     if (SUCCEEDED(hr))
     {
-        hr = ::VariantChangeType(&result, &result, 0, VT_BSTR);
+        hr = ::VariantChangeType(&result, &result, VARIANT_NOUSEROVERRIDE, VT_BSTR);
         if (SUCCEEDED(hr))
             value = result.bstrVal;
     }
