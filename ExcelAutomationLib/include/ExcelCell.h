@@ -20,6 +20,10 @@
 EXCEL_AUTOMATION_NAMESPACE_START
 
 
+// Forward declarations
+class ExcelFont;
+
+
 /*!
 * @brief Class ExcelCell represents the concept "Cell" in Excel.
 * @note ExcelCell/ExcelCellImpl is an implementation of the "Handle/Body" pattern.
@@ -38,6 +42,11 @@ public:
     bool SetValue(const ELstring &value);
     bool SetValue(int value);
     bool SetValue(double value);
+
+    /*!
+    * @brief Return an object representing the font property of this cell
+    */
+    ExcelFont GetFont();
 
 private:
     friend class ExcelWorksheetImpl;  // which will call the following ctor

@@ -41,6 +41,18 @@ public:
     ExcelRange GetRange(ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo);
     ExcelCell  GetCell(ELchar column, int row);
 
+    /*!
+    * @brief Merge the specified range into one cell or merge every row of the range into one cell.
+    * @param [in] columnFrom Left column of the range
+    * @param [in] columnTo Right column of the range
+    * @param [in] rowFrom Top row of the range
+    * @param [in] rowTo Bottom row of the range
+    * @param [in] multiRow If true, merge every row of the range into one cell;
+    *                      otherwise (false), merge the whole range into one cell.
+    * @return true if successful, otherwise false
+    */
+    bool Merge(ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo, bool multiRow = false);
+
 private:
     friend class ExcelWorkbookImpl;      // which calls the following ctor
     friend class ExcelWorksheetSetImpl;  // which calls the following ctor

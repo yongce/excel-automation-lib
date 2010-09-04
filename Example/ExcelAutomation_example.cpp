@@ -23,6 +23,7 @@ using namespace ExcelAutomation;
 int main()
 {
     ExcelApplication app;
+    wcout.imbue(locale("chs"));
 
     if (!app.Startup())
         return -1;
@@ -83,6 +84,23 @@ int main()
     ret = range2.WriteData(encodedData.c_str());
     wcout << L"Range write state: " << boolalpha << ret << endl;
 
+    ExcelFont range2Font = range2.GetFont();
+    bool boolVal;
+    range2Font.GetBold(boolVal);
+    range2Font.SetBold(!boolVal);
+    range2Font.GetItalic(boolVal);
+    range2Font.SetItalic(!boolVal);
+    ELstring fontName;
+    range2Font.GetName(fontName);
+    wcout << L"Range font name: " << fontName << endl;
+    int fontSize;
+    range2Font.GetSize(fontSize);
+    range2Font.SetSize(fontSize + 2);
+    COLORREF fontColor;
+    range2Font.GetColor(fontColor);
+    range2Font.SetColor(RGB(255, 0, 0));
+
+
     ExcelCell cell = activeWorksheet.GetCell(ELtext('A'), 4);
     ELstring valueD4;
     if (!cell.IsNull() && cell.GetValue(valueD4))
@@ -92,6 +110,27 @@ int main()
         if (!cell2.IsNull())
         {
             cell2.SetValue(valueD4);
+
+            ExcelFont cell2Font = cell2.GetFont();
+            cell2Font.SetColor(RGB(0, 0, 255));
+            cell2Font.SetBold(true);
+            cell2Font.SetItalic(true);
+            cell2Font.SetName(ELtext("华文行楷"));
+        }
+    }
+
+
+    bool merged = thirdWorksheet.Merge(ELtext('B'), ELtext('E'), 2, 5);
+    if (!merged)
+        wcout << L"Failed to merge the range (B2:E5)" << endl;
+    else
+    {
+        ExcelCell leftTop = thirdWorksheet.GetCell(ELtext('B'), 2);
+        if (leftTop.IsNull())
+            wcout << L"Failed to get left-top corner cell of the range" << endl;
+        else
+        {
+            leftTop.SetValue(ELtext("this is a test string"));
         }
     }
 

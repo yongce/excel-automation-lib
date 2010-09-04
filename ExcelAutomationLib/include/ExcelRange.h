@@ -23,6 +23,7 @@ EXCEL_AUTOMATION_NAMESPACE_START
 
 // Forward declarations
 class ExcelWorksheet;
+class ExcelFont;
 
 
 /*!
@@ -104,6 +105,19 @@ public:
     * @note values[i][j] holds the value for row i and column j of this range (i and j start from 0)
     */
     static ELstring EncodeData(const std::vector<std::vector<ELstring> > &values);
+
+    /*!
+    * @brief Merge this range into one cell or merge every row of this range into one cell.
+    * @param [in] multiRow If true, merge every row of the range into one cell;
+    *                      otherwise (false), merge the whole range into one cell.
+    * @return true if successful, otherwise false
+    */
+    bool Merge(bool multiRow = false);
+
+    /*!
+    * @brief Return an object representing the font property of this range
+    */
+    ExcelFont GetFont();
 
 
 private:
