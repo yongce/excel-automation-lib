@@ -50,6 +50,9 @@ private:
 
     ExcelFont GetFont();
 
+    bool SetHorizontalAlignment(ExcelHorizontalAlignment align);
+    bool SetVerticalAlignment(ExcelVerticalAlignment align);
+
 private:
     IDispatch *m_pCell;      // in fact, it refers an "Range" object
     ELchar     m_column;
@@ -139,6 +142,42 @@ ExcelFont ExcelCellImpl::GetFont()
 }
 
 
+bool ExcelCellImpl::SetHorizontalAlignment(ExcelHorizontalAlignment align)
+{
+    assert(m_pCell);
+
+    int alignConstant;
+    if (!GetExcelConstant(align, alignConstant))
+        return false;
+
+    VARIANT param;
+    param.vt = VT_INT;
+    param.intVal = alignConstant;
+
+    HRESULT hr = ComUtil::Invoke(m_pCell, DISPATCH_PROPERTYPUT, OLESTR("HorizontalAlignment"), NULL, 1, param);
+
+    return SUCCEEDED(hr);
+}
+
+
+bool ExcelCellImpl::SetVerticalAlignment(ExcelVerticalAlignment align)
+{
+    assert(m_pCell);
+
+    int alignConstant;
+    if (!GetExcelConstant(align, alignConstant))
+        return false;
+
+    VARIANT param;
+    param.vt = VT_INT;
+    param.intVal = alignConstant;
+
+    HRESULT hr = ComUtil::Invoke(m_pCell, DISPATCH_PROPERTYPUT, OLESTR("VerticalAlignment"), NULL, 1, param);
+
+    return SUCCEEDED(hr);    
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation of class ExcelCell
 
@@ -175,6 +214,18 @@ bool ExcelCell::SetValue(double value)
 ExcelFont ExcelCell::GetFont()
 {
     return Body().GetFont();
+}
+
+
+bool ExcelCell::SetHorizontalAlignment(ExcelHorizontalAlignment align)
+{
+    return Body().SetHorizontalAlignment(align);
+}
+
+
+bool ExcelCell::SetVerticalAlignment(ExcelVerticalAlignment align)
+{
+    return Body().SetVerticalAlignment(align);
 }
 
 

@@ -15,6 +15,7 @@
 #include "LibDef.h"
 #include "HandleBody.h"
 #include "StringUtil.h"
+#include "ExcelCommonTypes.h"
 
 
 // <begin> namespace
@@ -118,6 +119,20 @@ public:
     * @brief Return an object representing the font property of this range
     */
     ExcelFont GetFont();
+
+    /*!
+    * @brief Set horizontal alignment of the range
+    * @param [in] align Refer to ExcelHorizontalAlignment
+    * @return true if successful, otherwise false
+    */
+    bool SetHorizontalAlignment(ExcelHorizontalAlignment align);
+
+    /*!
+    * @brief Set vertical alignment of the range
+    * @param [in] align Refer to ExcelVerticalAlignment
+    * @return true if successful, otherwise false
+    */
+    bool SetVerticalAlignment(ExcelVerticalAlignment align);
 
 
 private:

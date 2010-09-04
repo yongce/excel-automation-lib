@@ -56,6 +56,9 @@ private:
     bool Merge(bool multiRow);
 
     ExcelFont GetFont();
+
+    bool SetHorizontalAlignment(ExcelHorizontalAlignment align);
+    bool SetVerticalAlignment(ExcelVerticalAlignment align);
     
 
 private:
@@ -138,6 +141,42 @@ ExcelFont ExcelRangeImpl::GetFont()
         return ExcelFont();
 
     return ExcelFont(result.pdispVal);
+}
+
+
+bool ExcelRangeImpl::SetHorizontalAlignment(ExcelHorizontalAlignment align)
+{
+    assert(m_pRange);
+
+    int alignConstant;
+    if (!GetExcelConstant(align, alignConstant))
+        return false;
+
+    VARIANT param;
+    param.vt = VT_INT;
+    param.intVal = alignConstant;
+
+    HRESULT hr = ComUtil::Invoke(m_pRange, DISPATCH_PROPERTYPUT, OLESTR("HorizontalAlignment"), NULL, 1, param);
+
+    return SUCCEEDED(hr);
+}
+
+
+bool ExcelRangeImpl::SetVerticalAlignment(ExcelVerticalAlignment align)
+{
+    assert(m_pRange);
+
+    int alignConstant;
+    if (!GetExcelConstant(align, alignConstant))
+        return false;
+
+    VARIANT param;
+    param.vt = VT_INT;
+    param.intVal = alignConstant;
+
+    HRESULT hr = ComUtil::Invoke(m_pRange, DISPATCH_PROPERTYPUT, OLESTR("VerticalAlignment"), NULL, 1, param);
+
+    return SUCCEEDED(hr);    
 }
 
 
@@ -275,6 +314,18 @@ bool ExcelRange::Merge(bool multiRow /* = false */)
 ExcelFont ExcelRange::GetFont()
 {
     return Body().GetFont();
+}
+
+
+bool ExcelRange::SetHorizontalAlignment(ExcelHorizontalAlignment align)
+{
+    return Body().SetHorizontalAlignment(align);
+}
+
+
+bool ExcelRange::SetVerticalAlignment(ExcelVerticalAlignment align)
+{
+    return Body().SetVerticalAlignment(align);
 }
 
 

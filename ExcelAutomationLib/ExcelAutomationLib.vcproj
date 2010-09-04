@@ -186,6 +186,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExcelCommonTypes.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ExcelFont.cpp"
 				>
 			</File>
@@ -247,6 +251,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ExcelCell.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ExcelCommonTypes.h"
 				>
 			</File>
 			<File
