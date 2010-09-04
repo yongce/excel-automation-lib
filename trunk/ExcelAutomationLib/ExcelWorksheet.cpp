@@ -155,6 +155,13 @@ ExcelCell ExcelWorksheet::GetCell(ELchar column, int row)
 }
 
 
+bool ExcelWorksheet::Merge(ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo, bool multiRow)
+{
+    ExcelRange range = GetRange(columnFrom, columnTo, rowFrom, rowTo);
+    return !range.IsNull() && range.Merge(multiRow);
+}
+
+
 // <begin> Handle/Body pattern implementation
 
 ExcelWorksheet::ExcelWorksheet(ExcelWorksheetImpl *impl): HandleBase(impl)

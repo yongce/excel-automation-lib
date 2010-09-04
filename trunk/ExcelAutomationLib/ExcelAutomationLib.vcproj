@@ -186,6 +186,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExcelFont.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ExcelRange.cpp"
 				>
 			</File>
@@ -243,6 +247,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ExcelCell.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ExcelFont.h"
 				>
 			</File>
 			<File

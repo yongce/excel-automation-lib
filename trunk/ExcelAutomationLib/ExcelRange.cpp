@@ -15,6 +15,7 @@
 #include "StringUtil.h"
 #include "ComUtil.h"
 #include "Noncopyable.h"
+#include "ExcelFont.h"
 
 
 // <begin> namespace
@@ -34,7 +35,8 @@ class ExcelRangeImpl : public BodyBase, public Noncopyable
 
 private:
     ExcelRangeImpl(IDispatch *pRange, ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo): \
-        m_pRange(pRange), m_columnFrom(columnFrom), m_columnTo(columnTo), m_rowFrom(rowFrom), m_rowTo(rowTo)
+        m_pRange(pRange), m_columnFrom(columnFrom), m_columnTo(columnTo), m_rowFrom(rowFrom), m_rowTo(rowTo),
+        m_merged(false), m_multiRowMerged(false)
     {
         assert(pRange);
     }
@@ -50,6 +52,10 @@ private:
 
     bool ReadData(ELstring &data);
     bool WriteData(const ELchar *data);
+
+    bool Merge(bool multiRow);
+
+    ExcelFont GetFont();
     
 
 private:
@@ -58,11 +64,14 @@ private:
     ELchar     m_columnTo;
     int        m_rowFrom;
     int        m_rowTo;
+    bool       m_merged;
+    bool       m_multiRowMerged;
 };
 
 
 bool ExcelRangeImpl::ReadData(ELstring &data)
 {
+    assert(!m_merged);
     assert(m_pRange);
     data.clear();
 
@@ -84,6 +93,7 @@ bool ExcelRangeImpl::ReadData(ELstring &data)
 
 bool ExcelRangeImpl::WriteData(const ELchar *data)
 {
+    assert(!m_merged);
     assert(m_pRange);
 
     VARIANT param;
@@ -95,6 +105,39 @@ bool ExcelRangeImpl::WriteData(const ELchar *data)
     ::VariantClear(&param);
 
     return SUCCEEDED(hr);
+}
+
+
+bool ExcelRangeImpl::Merge(bool multiRow)
+{
+    assert(m_pRange);
+
+    VARIANT param;
+    param.vt = VT_BOOL;
+    param.boolVal = multiRow;
+
+    HRESULT hr = ComUtil::Invoke(m_pRange, DISPATCH_METHOD, OLESTR("Merge"), NULL, 1, param);
+
+    m_merged = SUCCEEDED(hr);
+    m_multiRowMerged = multiRow;
+
+    return SUCCEEDED(hr);
+}
+
+
+ExcelFont ExcelRangeImpl::GetFont()
+{
+    assert(m_pRange);
+
+    VARIANT result;
+    ::VariantInit(&result);
+
+    HRESULT hr = ComUtil::Invoke(m_pRange, DISPATCH_PROPERTYGET, OLESTR("Font"), &result, 0);
+
+    if (FAILED(hr))
+        return ExcelFont();
+
+    return ExcelFont(result.pdispVal);
 }
 
 
@@ -223,6 +266,16 @@ ELstring ExcelRange::EncodeData(const std::vector<std::vector<ELstring> > &value
 }
 
 
+bool ExcelRange::Merge(bool multiRow /* = false */)
+{
+    return Body().Merge(multiRow);
+}
+
+
+ExcelFont ExcelRange::GetFont()
+{
+    return Body().GetFont();
+}
 
 
 // <begin> Handle/Body pattern implementation

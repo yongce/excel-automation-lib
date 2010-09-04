@@ -10,6 +10,7 @@
 #include "ExcelCell.h"
 #include "ComUtil.h"
 #include "Noncopyable.h"
+#include "ExcelFont.h"
 
 
 // <begin> namespace
@@ -47,6 +48,7 @@ private:
     bool SetValue(int value);
     bool SetValue(double value);
 
+    ExcelFont GetFont();
 
 private:
     IDispatch *m_pCell;      // in fact, it refers an "Range" object
@@ -121,6 +123,21 @@ bool ExcelCellImpl::SetValue(double value)
 }
 
 
+ExcelFont ExcelCellImpl::GetFont()
+{
+    assert(m_pCell);
+
+    VARIANT result;
+    ::VariantInit(&result);
+
+    HRESULT hr = ComUtil::Invoke(m_pCell, DISPATCH_PROPERTYGET, OLESTR("Font"), &result, 0);
+
+    if (FAILED(hr))
+        return ExcelFont();
+
+    return ExcelFont(result.pdispVal);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation of class ExcelCell
@@ -152,6 +169,12 @@ bool ExcelCell::SetValue(int value)
 bool ExcelCell::SetValue(double value)
 {
     return Body().SetValue(value);
+}
+
+
+ExcelFont ExcelCell::GetFont()
+{
+    return Body().GetFont();
 }
 
 

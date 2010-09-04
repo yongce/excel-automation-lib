@@ -20,6 +20,7 @@
 #include "ExcelWorksheet.h"
 #include "ExcelRange.h"
 #include "ExcelCell.h"
+#include "ExcelFont.h"
 
 
 #endif //EXCELAUTOMATION_H_GUID_91E20692_94F9_412C_8CAB_EF4435734B1C
