@@ -1,3 +1,7 @@
 // How to automate Excel from C++ without using MFC or #import
 // http://support.microsoft.com/kb/216686/
 
+
++ Global constants used in Microsoft Excel. 
+http://msdn.microsoft.com/en-us/library/microsoft.office.interop.excel.constants%28v=Office.11%29.aspx
+
