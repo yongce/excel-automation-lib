@@ -9,6 +9,7 @@
 
 #include <tchar.h>
 #include <cassert>
+#include <vector>
 
 #include "ExcelWorkbook.h"
 #include "ExcelWorksheetSet.h"
@@ -108,9 +109,21 @@ bool ExcelWorkbookImpl::SaveAs(const ELstring &filename)
 {
     assert(m_pWorkbook);
 
+    // Get full path name for the file
+    std::vector<ELchar> fullpath(256, ELtext('\0'));
+    DWORD bufLen = ::GetFullPathName(filename.c_str(), fullpath.size(), &fullpath[0], 0);
+    if (bufLen == 0)
+        return false;  // the file cannot be found
+
+    if (bufLen > fullpath.size())
+    {
+        fullpath.resize(bufLen, ELtext('\0'));
+        ::GetFullPathName(filename.c_str(), fullpath.size(), &fullpath[0], 0);
+    }
+
     VARIANT param;
     param.vt = VT_BSTR;
-    param.bstrVal = ::SysAllocString(filename.c_str());
+    param.bstrVal = ::SysAllocString(&fullpath[0]);
 
     HRESULT hr = ComUtil::Invoke(m_pWorkbook, DISPATCH_METHOD, OLESTR("SaveAs"), NULL, 1, param);
 
