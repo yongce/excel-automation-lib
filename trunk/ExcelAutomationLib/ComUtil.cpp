@@ -38,7 +38,7 @@ HRESULT ComUtil::Invoke(IDispatch *pDisp, WORD type, LPOLESTR name, VARIANT *pRe
     va_start(marker, argc);
 
     VARIANT *pArgs = new VARIANT[argc + 1];
-    for (int i = 0; i < argc; ++i)
+    for (int i = argc - 1; i >= 0; --i)
     {
         pArgs[i] = va_arg(marker, VARIANT);
     }
