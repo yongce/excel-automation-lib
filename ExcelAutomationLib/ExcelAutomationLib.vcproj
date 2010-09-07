@@ -186,15 +186,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ExcelCommonTypes.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ExcelFont.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\ExcelRange.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ExcelUtil.cpp"
 				>
 			</File>
 			<File
@@ -221,6 +221,10 @@
 			>
 			<File
 				RelativePath=".\ComUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExcelUtil.h"
 				>
 			</File>
 			<File

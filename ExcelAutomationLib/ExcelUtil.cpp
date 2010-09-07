@@ -1,13 +1,14 @@
 ﻿/*!
-* @file    ExcelCommonTypes.cpp
-* @brief   Implementation file
-* @date    2010-09-04 22:44:47
+* @file    ExcelUtil.cpp
+* @brief   Implementation file for class ExcelUtil
+* @date    2010-09-07 15:01:24
 * @author  Tu Yongce <tuyongce@gmail.com>
 * @version $Id$
 */
 
 
-#include "ExcelCommonTypes.h"
+#include "ExcelUtil.h"
+
 
 using namespace std;
 
@@ -17,7 +18,7 @@ EXCEL_AUTOMATION_NAMESPACE_START
 
 
 
-bool GetExcelConstant(ExcelHorizontalAlignment align, int &alignConstant)
+bool ExcelUtil::GetExcelConstant(ExcelHorizontalAlignment align, int &alignConstant)
 {
     // Values of constants
     const int xlLeft = -4131;
@@ -46,7 +47,7 @@ bool GetExcelConstant(ExcelHorizontalAlignment align, int &alignConstant)
 }
 
 
-bool GetExcelConstant(ExcelVerticalAlignment align, int &alignConstant)
+bool ExcelUtil::GetExcelConstant(ExcelVerticalAlignment align, int &alignConstant)
 {
     // Values of constants
     const int xlTop = -4160;
@@ -75,7 +76,7 @@ bool GetExcelConstant(ExcelVerticalAlignment align, int &alignConstant)
 }
 
 
-int GuessFileFormatFromFilename(const ELstring &filename)
+int ExcelUtil::GuessFileFormatFromFilename(const ELstring &filename)
 {
     int formatCode = 56;  // xlExcel8 (97-2003 format in Excel 2007-2010, xls), by default
 

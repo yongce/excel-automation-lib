@@ -12,7 +12,6 @@
 
 
 #include "LibDef.h"
-#include "StringUtil.h"
 
 
 // <begin> namespace
@@ -27,7 +26,6 @@ enum ExcelHorizontalAlignment
     EHA_Right = 3,            // Right alignment
 };
 
-bool GetExcelConstant(ExcelHorizontalAlignment align, int &alignConstant);
 
 // Constants for Vertical Alignment
 enum ExcelVerticalAlignment
@@ -36,12 +34,6 @@ enum ExcelVerticalAlignment
     EVA_VCenter = 2,          // Vertical center alignment
     EVA_Bottom = 3,           // Bottom alignment
 };
-
-bool GetExcelConstant(ExcelVerticalAlignment align, int &alignConstant);
-
-
-//  Guess file format from file name. Default is 
-int GuessFileFormatFromFilename(const ELstring &filename);
 
 
 // <end> namespace

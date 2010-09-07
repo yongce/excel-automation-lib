@@ -11,6 +11,7 @@
 #include "ComUtil.h"
 #include "Noncopyable.h"
 #include "ExcelFont.h"
+#include "ExcelUtil.h"
 
 
 // <begin> namespace
@@ -147,7 +148,7 @@ bool ExcelCellImpl::SetHorizontalAlignment(ExcelHorizontalAlignment align)
     assert(m_pCell);
 
     int alignConstant;
-    if (!GetExcelConstant(align, alignConstant))
+    if (!ExcelUtil::GetExcelConstant(align, alignConstant))
         return false;
 
     VARIANT param;
@@ -165,7 +166,7 @@ bool ExcelCellImpl::SetVerticalAlignment(ExcelVerticalAlignment align)
     assert(m_pCell);
 
     int alignConstant;
-    if (!GetExcelConstant(align, alignConstant))
+    if (!ExcelUtil::GetExcelConstant(align, alignConstant))
         return false;
 
     VARIANT param;
