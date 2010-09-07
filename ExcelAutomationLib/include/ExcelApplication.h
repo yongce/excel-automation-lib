@@ -47,6 +47,9 @@ public:
     ExcelWorkbook OpenWorkbook(const ELchar *filename);
     ExcelWorkbook OpenWorkbook(const ELstring &filename);
 
+    ExcelWorkbook CreateWorkbook(const ELchar *filename);
+    ExcelWorkbook CreateWorkbook(const ELstring &filename);
+
 private:
     // <begin> Handle/Body pattern implementation
     friend class ExcelApplicationImpl;

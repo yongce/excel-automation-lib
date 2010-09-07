@@ -49,6 +49,8 @@ private:
 
     ExcelWorkbook OpenWorkbook(const ELchar *filename);
 
+    ExcelWorkbook CreateWorkbook(const ELchar *filename);
+
 
 private:
     IDispatch *m_pWorkbookSet;
@@ -61,7 +63,6 @@ ExcelWorkbook ExcelWorkbookSetImpl::OpenWorkbook(const ELchar *filename)
 
     // Get full path name for the file
     std::vector<ELchar> fullpath(256, ELtext('\0'));
-    DWORD len = _tcslen(filename);
     DWORD bufLen = ::GetFullPathName(filename, fullpath.size(), &fullpath[0], 0);
     if (bufLen == 0)
         return ExcelWorkbook();  // the file cannot be found
@@ -90,6 +91,26 @@ ExcelWorkbook ExcelWorkbookSetImpl::OpenWorkbook(const ELchar *filename)
 }
 
 
+ExcelWorkbook ExcelWorkbookSetImpl::CreateWorkbook(const ELchar *filename)
+{
+    assert(m_pWorkbookSet);
+
+    VARIANT result;
+    VariantInit(&result);
+
+    HRESULT hr = ComUtil::Invoke(m_pWorkbookSet, DISPATCH_METHOD, OLESTR("Add"), &result, 0);
+
+    if (FAILED(hr))
+        return ExcelWorkbook();
+
+    ExcelWorkbook workbook(result.pdispVal);
+    if (!workbook.SaveAs(filename))
+        return ExcelWorkbook();
+
+    return workbook;
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation of class ExcelWorkbookSet
 
@@ -102,6 +123,12 @@ ExcelWorkbookSet::ExcelWorkbookSet(IDispatch *pWorkbookSet): HandleBase(new Exce
 ExcelWorkbook ExcelWorkbookSet::OpenWorkbook(const ELchar *filename)
 {
     return Body().OpenWorkbook(filename);
+}
+
+
+ExcelWorkbook ExcelWorkbookSet::CreateWorkbook(const ELchar *filename)
+{
+    return Body().CreateWorkbook(filename);
 }
 
 

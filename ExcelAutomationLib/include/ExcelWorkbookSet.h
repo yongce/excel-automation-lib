@@ -38,6 +38,8 @@ public:
 
     ExcelWorkbook OpenWorkbook(const ELchar *filename);
 
+    ExcelWorkbook CreateWorkbook(const ELchar *filename);
+
 private:
     friend class ExcelApplicationImpl;    // which will call the following ctor
     ExcelWorkbookSet(IDispatch *pWorkbookSet);
