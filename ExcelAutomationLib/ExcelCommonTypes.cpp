@@ -9,6 +9,8 @@
 
 #include "ExcelCommonTypes.h"
 
+using namespace std;
+
 
 // <begin> namespace
 EXCEL_AUTOMATION_NAMESPACE_START
@@ -70,6 +72,23 @@ bool GetExcelConstant(ExcelVerticalAlignment align, int &alignConstant)
     }
 
     return true;
+}
+
+
+int GuessFileFormatFromFilename(const ELstring &filename)
+{
+    int formatCode = 56;  // xlExcel8 (97-2003 format in Excel 2007-2010, xls), by default
+
+    size_t lastDotPos = filename.find_last_of(ELtext('.'));
+
+    if (lastDotPos != string::npos && lastDotPos + 1 < filename.length())
+    {
+        ELstring ext = filename.substr(lastDotPos + 1);
+        if (ext == ELtext("xlsx"))
+            formatCode = 51;  // xlOpenXMLWorkbook
+    }
+
+    return formatCode;
 }
 
 

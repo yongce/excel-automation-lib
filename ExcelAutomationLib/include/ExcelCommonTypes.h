@@ -12,6 +12,7 @@
 
 
 #include "LibDef.h"
+#include "StringUtil.h"
 
 
 // <begin> namespace
@@ -37,6 +38,11 @@ enum ExcelVerticalAlignment
 };
 
 bool GetExcelConstant(ExcelVerticalAlignment align, int &alignConstant);
+
+
+//  Guess file format from file name. Default is 
+int GuessFileFormatFromFilename(const ELstring &filename);
+
 
 // <end> namespace
 EXCEL_AUTOMATION_NAMESPACE_END

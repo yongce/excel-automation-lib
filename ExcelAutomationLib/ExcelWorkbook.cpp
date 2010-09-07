@@ -16,6 +16,7 @@
 #include "ExcelWorksheet.h"
 #include "ComUtil.h"
 #include "Noncopyable.h"
+#include "ExcelCommonTypes.h"
 
 
 // <begin> namespace
@@ -125,7 +126,11 @@ bool ExcelWorkbookImpl::SaveAs(const ELstring &filename)
     param.vt = VT_BSTR;
     param.bstrVal = ::SysAllocString(&fullpath[0]);
 
-    HRESULT hr = ComUtil::Invoke(m_pWorkbook, DISPATCH_METHOD, OLESTR("SaveAs"), NULL, 1, param);
+    VARIANT param2;
+    param2.vt = VT_INT;
+    param2.intVal = GuessFileFormatFromFilename(filename);
+
+    HRESULT hr = ComUtil::Invoke(m_pWorkbook, DISPATCH_METHOD, OLESTR("SaveAs"), NULL, 2, param, param2);
 
     ::VariantClear(&param);
 
