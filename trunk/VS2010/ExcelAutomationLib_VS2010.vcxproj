@@ -83,10 +83,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\ExcelAutomationLib\ComUtil.h" />
+    <ClInclude Include="..\ExcelAutomationLib\ExcelUtil.h" />
     <ClInclude Include="..\ExcelAutomationLib\include\AtomicsUtil.h" />
     <ClInclude Include="..\ExcelAutomationLib\include\ExcelApplication.h" />
     <ClInclude Include="..\ExcelAutomationLib\include\ExcelAutomationLib.h" />
     <ClInclude Include="..\ExcelAutomationLib\include\ExcelCell.h" />
+    <ClInclude Include="..\ExcelAutomationLib\include\ExcelCommonTypes.h" />
+    <ClInclude Include="..\ExcelAutomationLib\include\ExcelFont.h" />
     <ClInclude Include="..\ExcelAutomationLib\include\ExcelRange.h" />
     <ClInclude Include="..\ExcelAutomationLib\include\ExcelWorkbook.h" />
     <ClInclude Include="..\ExcelAutomationLib\include\ExcelWorkbookSet.h" />
@@ -101,7 +104,9 @@
     <ClCompile Include="..\ExcelAutomationLib\ComUtil.cpp" />
     <ClCompile Include="..\ExcelAutomationLib\ExcelApplication.cpp" />
     <ClCompile Include="..\ExcelAutomationLib\ExcelCell.cpp" />
+    <ClCompile Include="..\ExcelAutomationLib\ExcelFont.cpp" />
     <ClCompile Include="..\ExcelAutomationLib\ExcelRange.cpp" />
+    <ClCompile Include="..\ExcelAutomationLib\ExcelUtil.cpp" />
     <ClCompile Include="..\ExcelAutomationLib\ExcelWorkbook.cpp" />
     <ClCompile Include="..\ExcelAutomationLib\ExcelWorkbookSet.cpp" />
     <ClCompile Include="..\ExcelAutomationLib\ExcelWorksheet.cpp" />
