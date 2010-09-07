@@ -64,6 +64,8 @@ private:
 
     ExcelWorkbook OpenWorkbook(const ELchar *filename);
 
+    ExcelWorkbook CreateWorkbook(const ELchar *filename);
+
 private:
     IDispatch *m_pApp;
     ExcelWorkbookSet m_workbookSet;
@@ -147,6 +149,17 @@ ExcelWorkbook ExcelApplicationImpl::OpenWorkbook(const ELchar *filename)
 }
 
 
+ExcelWorkbook ExcelApplicationImpl::CreateWorkbook(const ELchar *filename)
+{
+    assert(IsRunning());
+
+    if (m_workbookSet.IsNull())
+        GetWorkbookSet();
+
+    return m_workbookSet.CreateWorkbook(filename);
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation of class ExcelWorkbookSet
 
@@ -188,6 +201,18 @@ ExcelWorkbook ExcelApplication::OpenWorkbook(const ELchar *filename)
 ExcelWorkbook ExcelApplication::OpenWorkbook(const ELstring &filename)
 {
     return OpenWorkbook(filename.c_str());
+}
+
+
+ExcelWorkbook ExcelApplication::CreateWorkbook(const ELchar *filename)
+{
+    return Body().CreateWorkbook(filename);
+}
+
+
+ExcelWorkbook ExcelApplication::CreateWorkbook(const ELstring &filename)
+{
+    return CreateWorkbook(filename.c_str());
 }
 
 
