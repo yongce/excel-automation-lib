@@ -60,6 +60,15 @@
     <ClInclude Include="..\ExcelAutomationLib\Noncopyable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\ExcelAutomationLib\ExcelUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExcelAutomationLib\include\ExcelCommonTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExcelAutomationLib\include\ExcelFont.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ExcelAutomationLib\ComUtil.cpp">
@@ -84,6 +93,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\ExcelAutomationLib\ExcelWorksheetSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ExcelAutomationLib\ExcelUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ExcelAutomationLib\ExcelFont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
