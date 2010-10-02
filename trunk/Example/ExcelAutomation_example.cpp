@@ -28,11 +28,11 @@ int main()
     if (!app.Startup())
         return -1;
 
-    ExcelWorkbook file = app.OpenWorkbook(ELtext("D:\\Tyc\\Code\\ExcelAutomationLib\\Example\\C++0x Features Supported by VC.xls"));
-    if (file.IsNull())
+    ExcelWorkbook workbook = app.OpenWorkbook(ELtext("D:\\Tyc\\Code\\ExcelAutomationLib\\Example\\C++0x Features Supported by VC.xls"));
+    if (workbook.IsNull())
         return -2;
 
-    ExcelWorksheet activeWorksheet = file.GetActiveWorksheet();
+    ExcelWorksheet activeWorksheet = workbook.GetActiveWorksheet();
     if (activeWorksheet.IsNull())
         return -3;
 
@@ -46,7 +46,7 @@ int main()
     bool ret = range.WriteData(encodedData.c_str());
     wcout << L"Range write state: " << boolalpha << ret << endl;
 
-    if (!file.Save())
+    if (!workbook.Save())
         return -5;
 
     ELstring data;
@@ -67,7 +67,7 @@ int main()
         wcout << endl;
     }
 
-    ExcelWorksheetSet allWorksheets = file.GetAllWorksheets();
+    ExcelWorksheetSet allWorksheets = workbook.GetAllWorksheets();
     if (allWorksheets.IsNull())
         return -6;
 
@@ -134,11 +134,19 @@ int main()
         }
     }
 
+    wcout << L"Active worksheet before add a new worksheet: " << workbook.GetActiveWorksheet().GetName() << endl;
+    ExcelWorksheet addedWorksheet = workbook.AddWorksheet(ELtext("added1"));
+    wcout << L"The added worksheet is: " << addedWorksheet.GetName() << endl;
+    wcout << L"Active worksheet after add a new worksheet: " << workbook.GetActiveWorksheet().GetName() << endl;
 
-    if (!file.Save())
+    wcout << L"The worksheet \"" << activeWorksheet.GetName() << L"\" will be copied" << endl;
+    activeWorksheet.CopyWorksheet();
+    wcout << L"After copy the worksheet, the new active worksheet is: " << workbook.GetActiveWorksheet().GetName() << endl;
+
+    if (!workbook.Save())
         return -9;
 
-    if (!file.Close())
+    if (!workbook.Close())
         return -10;
 
     if (!app.Shutdown())

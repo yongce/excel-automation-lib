@@ -43,6 +43,12 @@ public:
     */
     ExcelWorksheet GetWorksheet(int index);
 
+    /*!
+    * @brief Add a new worksheet
+    * @return An ExcelWorksheet object for the new added worksheet.
+    */
+    ExcelWorksheet AddWorksheet(ExcelWorksheet ref, bool after = true);
+
 private:
     friend class ExcelWorkbookImpl;   // which calls the following ctor
     ExcelWorksheetSet(IDispatch *pWorksheetSet);

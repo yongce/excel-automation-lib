@@ -5,3 +5,15 @@
 + Global constants used in Microsoft Excel. 
 http://msdn.microsoft.com/en-us/library/microsoft.office.interop.excel.constants%28v=Office.11%29.aspx
 
+
++ How to pass optional parameters when you call a function in Visual C++
+http://support.microsoft.com/kb/238981
+Some methods have "optional" parameters. In Visual Basic, you can omit them when calling the method. 
+However, when calling with Visual C++, you have to pass a special VARIANT whose .vt field has the value VT_ERROR 
+and .scode field has the value DISP_E_PARAMNOTFOUND. That is
+      // VARIANT used in place of optional-parameters.
+      VARIANT varOpt;
+      varOpt.vt = VT_ERROR;
+      varOpt.scode = DISP_E_PARAMNOTFOUND; 
+This is what Visual Basic is doing behind-the-scenes. 
+

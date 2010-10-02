@@ -37,7 +37,16 @@ public:
     */ // Doc is needed by Doxygen
     ExcelWorksheet(): HandleBase(0) { }
 
+    /*!
+    * @brief Get the IDispatch pointer for this worksheet object
+    * @note This pointer will go to be invalid when this ExcelWorksheet object is destroyed.
+    * @note Don't call IDispatch::Release() on this IDispatch pointer.
+    */
+    IDispatch* GetIDispatch(); 
+
     ELstring   GetName();
+    bool       SetName(const ELstring &name);
+
     ExcelRange GetRange(ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo);
     ExcelCell  GetCell(ELchar column, int row);
 
@@ -52,6 +61,16 @@ public:
     * @return true if successful, otherwise false
     */
     bool Merge(ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo, bool multiRow = false);
+
+    /*!
+    * @brief Create a copy of current worksheet
+    * @param [in] after If true, the new worksheet will be after this worksheet; 
+    *                   otherwise, the new worksheet will be before this worksheet.
+    * @return Return true if successful; otherwise, return false.
+    * @note The new worksheet will be added after the current worksheet and will be activated.
+    * @note Call ExcelWorkbook::GetActiveWorksheet() to get the new worksheet.
+    */
+    bool CopyWorksheet(bool after = true);
 
 private:
     friend class ExcelWorkbookImpl;      // which calls the following ctor
