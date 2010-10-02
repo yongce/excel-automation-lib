@@ -47,11 +47,18 @@ private:
         }
     }
 
-    ELstring GetName();
+    IDispatch* GetIDispatch()
+    {
+        return m_pWorksheet;
+    }
+
+    ELstring   GetName();
+    bool       SetName(const ELstring &name);
 
     ExcelRange GetRange(ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo);
     ExcelCell  GetCell(ELchar column, int row);
 
+    bool CopyWorksheet(bool after);
 
 private:
     IDispatch *m_pWorksheet;
@@ -78,6 +85,22 @@ ELstring ExcelWorksheetImpl::GetName()
 }
 
 
+bool ExcelWorksheetImpl::SetName(const ELstring &name)
+{
+    assert(m_pWorksheet);
+
+    VARIANT param;
+    param.vt = VT_BSTR;
+    param.bstrVal = ::SysAllocString(name.c_str());
+
+    HRESULT hr = ComUtil::Invoke(m_pWorksheet, DISPATCH_PROPERTYPUT, OLESTR("Name"), NULL, 1, param);
+
+    ::VariantClear(&param);
+
+    return SUCCEEDED(hr);
+}
+
+
 ExcelRange ExcelWorksheetImpl::GetRange(ELchar columnFrom, ELchar columnTo, int rowFrom, int rowTo)
 {
     assert(m_pWorksheet);
@@ -94,6 +117,8 @@ ExcelRange ExcelWorksheetImpl::GetRange(ELchar columnFrom, ELchar columnTo, int 
     VariantInit(&result);
 
     HRESULT hr = ComUtil::Invoke(m_pWorksheet, DISPATCH_PROPERTYGET, OLESTR("Range"), &result, 1, param);
+
+    ::VariantClear(&param);
 
     if (FAILED(hr))
         return ExcelRange();
@@ -128,6 +153,29 @@ ExcelCell ExcelWorksheetImpl::GetCell(ELchar column, int row)
 }
 
 
+bool ExcelWorksheetImpl::CopyWorksheet(bool after)
+{
+    assert(m_pWorksheet);
+
+    VARIANT paramOptional;
+    paramOptional.vt = VT_ERROR;
+    paramOptional.scode = DISP_E_PARAMNOTFOUND;
+
+    VARIANT afterParam;
+    afterParam.vt = VT_DISPATCH;
+    afterParam.pdispVal = m_pWorksheet;
+
+    HRESULT hr;
+    
+    if (after)
+        hr = ComUtil::Invoke(m_pWorksheet, DISPATCH_METHOD, OLESTR("Copy"), NULL, 2, paramOptional, afterParam);
+    else
+        hr = ComUtil::Invoke(m_pWorksheet, DISPATCH_METHOD, OLESTR("Copy"), NULL, 2, afterParam, paramOptional);
+
+    return SUCCEEDED(hr);
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation of class ExcelWorksheet
 
@@ -137,9 +185,21 @@ ExcelWorksheet::ExcelWorksheet(IDispatch *pWorksheet): HandleBase(new ExcelWorks
 }
 
 
+IDispatch* ExcelWorksheet::GetIDispatch()
+{
+    return Body().GetIDispatch();
+}
+
+
 ELstring ExcelWorksheet::GetName()
 {
     return Body().GetName();
+}
+
+
+bool ExcelWorksheet::SetName(const ELstring &name)
+{
+    return Body().SetName(name);
 }
 
 
@@ -159,6 +219,12 @@ bool ExcelWorksheet::Merge(ELchar columnFrom, ELchar columnTo, int rowFrom, int 
 {
     ExcelRange range = GetRange(columnFrom, columnTo, rowFrom, rowTo);
     return !range.IsNull() && range.Merge(multiRow);
+}
+
+
+bool ExcelWorksheet::CopyWorksheet(bool after)
+{
+    return Body().CopyWorksheet(after);
 }
 
 

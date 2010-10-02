@@ -50,6 +50,7 @@ private:
 
     ExcelWorksheet GetWorksheet(int index);
 
+    ExcelWorksheet AddWorksheet(ExcelWorksheet ref, bool after);
 
 private:
     IDispatch *m_pWorksheetSet;
@@ -92,6 +93,35 @@ ExcelWorksheet ExcelWorksheetSetImpl::GetWorksheet(int index)
 }
 
 
+ExcelWorksheet ExcelWorksheetSetImpl::AddWorksheet(ExcelWorksheet ref, bool after)
+{
+    assert(m_pWorksheetSet);
+
+    VARIANT paramOptional;
+    paramOptional.vt = VT_ERROR;
+    paramOptional.scode = DISP_E_PARAMNOTFOUND;
+
+    VARIANT refParam;
+    refParam.vt = VT_DISPATCH;
+    refParam.pdispVal = ref.GetIDispatch();
+
+    VARIANT result;
+    VariantInit(&result);
+
+    HRESULT hr;
+    
+    if (after)
+        hr = ComUtil::Invoke(m_pWorksheetSet, DISPATCH_METHOD, OLESTR("Add"), &result, 2, paramOptional, refParam);
+    else
+        hr = ComUtil::Invoke(m_pWorksheetSet, DISPATCH_METHOD, OLESTR("Add"), &result, 2, refParam, paramOptional);
+
+    if (FAILED(hr))
+        return ExcelWorksheet();
+
+    return ExcelWorksheet(result.pdispVal);
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation of class ExcelWorksheetSet
 
@@ -110,6 +140,12 @@ int ExcelWorksheetSet::CountWorksheets()
 ExcelWorksheet ExcelWorksheetSet::GetWorksheet(int index)
 {
     return Body().GetWorksheet(index);
+}
+
+
+ExcelWorksheet ExcelWorksheetSet::AddWorksheet(ExcelAutomation::ExcelWorksheet ref, bool after)
+{
+    return Body().AddWorksheet(ref, after);
 }
 
 

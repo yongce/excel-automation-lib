@@ -40,6 +40,13 @@ public:
     ExcelWorksheet GetActiveWorksheet() const;
     ExcelWorksheetSet GetAllWorksheets() const;
 
+    /*!
+    * @brief Add a new worksheet after the active worksheet
+    * @param [in] name Name of the new added worksheet. If empty, the default name given by Excel will not be changed.
+    * @return An ExcelWorksheet object for the new added worksheet.
+    */
+    ExcelWorksheet AddWorksheet(const ELstring &name = ELstring());
+
     bool Save() const;
     bool SaveAs(const ELstring &filename);
 

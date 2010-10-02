@@ -172,6 +172,25 @@ ExcelWorksheetSet ExcelWorkbook::GetAllWorksheets() const
 }
 
 
+ExcelWorksheet ExcelWorkbook::AddWorksheet(const ELstring &name)
+{
+    ExcelWorksheetSet worksheetSet = GetAllWorksheets();
+    if (worksheetSet.IsNull())
+        return ExcelWorksheet();
+
+    ExcelWorksheet activeWorksheet = GetActiveWorksheet();
+
+    ExcelWorksheet worksheet = worksheetSet.AddWorksheet(activeWorksheet, true);
+
+    if (!worksheet.IsNull() && !name.empty())
+    {
+        worksheet.SetName(name);
+    }
+
+    return worksheet;
+}
+
+
 bool ExcelWorkbook::Save() const
 {
     return Body().Save();
