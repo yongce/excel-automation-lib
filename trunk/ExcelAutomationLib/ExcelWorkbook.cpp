@@ -42,11 +42,7 @@ private:
 
     virtual ~ExcelWorkbookImpl()
     {
-        if (m_pWorkbook)
-        {
-            m_pWorkbook->Release();
-            m_pWorkbook = 0;
-        }
+        Close();
     }
 
     ExcelWorksheet GetActiveWorksheet();
@@ -140,12 +136,16 @@ bool ExcelWorkbookImpl::SaveAs(const ELstring &filename)
 
 bool ExcelWorkbookImpl::Close()
 {
-    assert(m_pWorkbook);
+    if (m_pWorkbook == NULL)
+        return true;
 
     HRESULT hr = ComUtil::Invoke(m_pWorkbook, DISPATCH_METHOD, OLESTR("Close"), NULL, 0);
 
-    m_pWorkbook->Release();
-    m_pWorkbook = 0;
+    if (SUCCEEDED(hr))
+    {
+        m_pWorkbook->Release();
+        m_pWorkbook = 0;
+    }
 
     return SUCCEEDED(hr);
 }
